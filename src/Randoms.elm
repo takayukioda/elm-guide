@@ -1,4 +1,4 @@
-module Main exposing (..)
+module Main exposing (Model, Msg(..), init, main, subscriptions, update, view)
 
 import Browser
 import Html exposing (..)
@@ -12,11 +12,11 @@ import Random
 
 main =
     Browser.element
-    { init = init
-    , update = update
-    , subscriptions = subscriptions
-    , view = view
-    }
+        { init = init
+        , update = update
+        , subscriptions = subscriptions
+        , view = view
+        }
 
 
 
@@ -28,7 +28,7 @@ type alias Model =
     }
 
 
-init : () -> (Model, Cmd Msg)
+init : () -> ( Model, Cmd Msg )
 init _ =
     ( Model 1
     , Cmd.none
@@ -44,13 +44,14 @@ type Msg
     | NewFace Int
 
 
-update : Msg -> Model -> (Model, Cmd Msg)
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Roll ->
             ( model
-            , Random.generage NewFace (Random.int 1 6)
+            , Random.generate NewFace (Random.int 1 6)
             )
+
         NewFace newFace ->
             ( Model newFace
             , Cmd.none
@@ -60,9 +61,11 @@ update msg model =
 
 -- Subscriptions
 
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
+
 
 view : Model -> Html Msg
 view model =
